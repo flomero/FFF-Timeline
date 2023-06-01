@@ -2,12 +2,13 @@
 :root {
     --tl-primary-color: #4caf50;
     --tl-secondary-color: #1b7340;
+    --tl-info-color: #90D3ED;
     --tl-background-color: #f2f2f2;
     --tl-line-color: var(--tl-primary-color);
     --tl-date-background-color: var(--tl-primary-color);
     --tl-text-color: #000000;
     --tl-button-color: var(--tl-primary-color);
-    --tl-button-hover-color: #90D3ED;
+    --tl-button-hover-color: var(--tl-info-color);
 }
 
 body {
@@ -89,7 +90,7 @@ body {
   margin-left: 30%;
 }
 
-.timeline-item .button {
+.timeline-item .button, .button {
   display: inline-block;
   box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 2px 0px;
   font-weight: 600;
@@ -102,12 +103,35 @@ body {
   transition-duration: 0.2s;
   transition-property: all;
   transition-timing-function: ease;
+  border: none;
+}
+
+.show-more {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  z-index: 2;
 }
 
 .timeline-item .button:hover {
   background-color: var(--tl-button-hover-color);
 }
 
+.date-future .date {
+  background-color: var(--tl-info-color);
+}
+
+.timeline-item.new-item {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-item.fade-in {
+  opacity: 1;
+}
 
 /* all items right for mobile */
 @media (min-width: 767px) {

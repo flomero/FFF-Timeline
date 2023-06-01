@@ -5,62 +5,141 @@
     <!-- set viewport scake -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
+  <script>
+    // number of items to display
+    let displayCount = 3;
+    // timeline items always need a sorting date in the format YYYY-MM-DD (e.g. 2020-09-24) and a date for display purposes
+    let timelineItems = [
+      {
+        date: "2005",
+        sortingDate: "2005-01-01",
+        title: "Event 1",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+        utl: "https://example.com/article1",
+      },
+      {
+        date: "2010",
+        sortingDate: "2010-01-01",
+        title: "Event 2",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+        url: "https://example.com/article2",
+      },
+      {
+        date: "2015",
+        sortingDate: "2015-01-01",
+        title: "Event 3",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+        url: "https://example.com/article3",
+      },
+      {
+        date: "2020",
+        sortingDate: "2020-01-01",
+        title: "Event 4",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+      },
+      {
+        date: "2025",
+        sortingDate: "2025-01-01",
+        title: "Event 5",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+        url: "https://example.com/article5",
+      },
+      // add more items here
+    ];
+  </script>
+
   <body>
     <div class="timeline-container">
       <div class="timeline">
-        <div class="timeline-item">
-          <div class="date">2005</div>
-          <div class="content">
-            <h3>Event 1</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              feugiat justo eget sollicitudin fermentum.
-            </p>
-            <a href="https://example.com/article1" class="button"
-              >Weiterlesen</a
-            >
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="date">2010</div>
-          <div class="content">
-            <h3>Event 2</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              feugiat justo eget sollicitudin fermentum.
-            </p>
-            <a href="https://example.com/article2" class="button"
-              >Weiterlesen</a
-            >
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="date">2015</div>
-          <div class="content">
-            <h3>Event 3</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              feugiat justo eget sollicitudin fermentum.
-            </p>
-            <a href="https://example.com/article3" class="button"
-              >Weiterlesen</a
-            >
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="date">2020</div>
-          <div class="content">
-            <h3>Event 4</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              feugiat justo eget sollicitudin fermentum.
-            </p>
-            <a href="https://example.com/article4" class="button"
-              >Weiterlesen</a
-            >
-          </div>
-        </div>
+        <!-- timeline items will be added here -->
       </div>
     </div>
+
+    <script>
+      // sort timeline items by date
+      timelineItems.sort((a, b) => {
+        return new Date(b.sortingDate) - new Date(a.sortingDate);
+      });
+
+      // create timeline
+      let timeline = document.querySelector(".timeline");
+
+      // display only a certain number of items
+      displayedItems = timelineItems.slice(0, displayCount);
+
+      displayedItems.forEach((item) => {
+        let timelineItem = document.createElement("div");
+        timelineItem.id = item.sortingDate;
+        timelineItem.classList.add("timeline-item");
+        timelineItem.innerHTML = `
+        <div class="date">${item.date}</div>
+        <div class="content">
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+        </div>
+      `;
+        if (item.url) {
+          let link = document.createElement("a");
+          link.href = item.url;
+          link.classList.add("button");
+          link.innerText = "Weiterlesen";
+          timelineItem.querySelector(".content").appendChild(link);
+        }
+        timeline.appendChild(timelineItem);
+      });
+
+      // add date-future class to future dates
+      let today = new Date();
+      for (let i = 0; i < timelineItems.length; i++) {
+        let itemDate = new Date(timelineItems[i].sortingDate);
+        if (itemDate > today) {
+          document
+            .getElementById(timelineItems[i].sortingDate)
+            .classList.add("date-future");
+        }
+      }
+
+      // if there are more items than displayCount, add a button to show more
+      if (displayedItems.length < timelineItems.length) {
+        let showMoreButton = document.createElement("button");
+        showMoreButton.classList.add("button");
+        showMoreButton.classList.add("show-more");
+        showMoreButton.innerText = "Mehr anzeigen";
+        showMoreButton.addEventListener("click", () => {
+          timelineItems.slice(displayedItems.length).forEach((item) => {
+            let timelineItem = document.createElement("div");
+            timelineItem.id = item.sortingDate;
+            timelineItem.classList.add("timeline-item");
+            timelineItem.classList.add("new-item");
+            timelineItem.innerHTML = `
+          <div class="date">${item.date}</div>
+          <div class="content">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+          </div>
+        `;
+            if (item.url) {
+              let link = document.createElement("a");
+              link.href = item.url;
+              link.classList.add("button");
+              link.innerText = "Weiterlesen";
+              timelineItem.querySelector(".content").appendChild(link);
+            }
+            timeline.appendChild(timelineItem);
+            setTimeout(() => {
+              timelineItem.classList.add("fade-in");
+            }, 50); // Delay the transition for a smoother effect
+          });
+
+          showMoreButton.remove();
+        });
+        timeline.appendChild(showMoreButton);
+      }
+    </script>
   </body>
 </html>
