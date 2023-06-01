@@ -24,6 +24,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin: 20px;
 }
 
 .timeline {
@@ -44,6 +45,18 @@ body {
   margin-left: -1px;
 }
 
+/* add arrow to top of line */
+.timeline-tip {
+  position: absolute;
+  top: -15px; /* Adjust the value based on the desired position of the arrow tip */
+  left: 15%; /* Adjust the value to align the arrow tip with the timeline line */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid var(--tl-line-color); /* Set the color of the arrow tip */
+  transform: translateX(-50%);
+}
 
 .timeline-item:last-child {
   margin-bottom: 0;
@@ -145,6 +158,10 @@ body {
     .timeline::after {
         left: 50%;
         margin-left: -1px;
+    }
+
+    .timeline-tip {
+      left: 50%;
     }
 
     .timeline-item .date {
