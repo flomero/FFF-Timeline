@@ -1,0 +1,297 @@
+<script>
+  // setup and timeline entries
+  // number of items to display
+  let displayCount = 3;
+  // timeline items always need a sorting date in the format YYYY-MM-DD (e.g. 2020-09-24) and a date for display purposes
+  let timelineItems = [
+    {
+      date: "2005",
+      sortingDate: "2005-01-01",
+      title: "Event 1",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+      utl: "https://example.com/article1",
+    },
+    {
+      date: "2010",
+      sortingDate: "2010-01-01",
+      title: "Event 2",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+      url: "https://example.com/article2",
+    },
+    {
+      date: "2015",
+      sortingDate: "2015-01-01",
+      title: "Event 3",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+      url: "https://example.com/article3",
+    },
+    {
+      date: "2020",
+      sortingDate: "2020-01-01",
+      title: "Event 4",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+    },
+    {
+      date: "2025",
+      sortingDate: "2025-01-01",
+      title: "Event 5",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat justo eget sollicitudin fermentum.",
+      url: "https://example.com/article5",
+    },
+    // add more items here
+  ];
+</script>
+
+<div class="timeline-container">
+  <div class="timeline">
+    <div class="timeline-tip"></div>
+    <!-- timeline items will be added here -->
+  </div>
+</div>
+
+<style>
+  /* declare colors */
+  :root {
+    --tl-primary-color: #4caf50;
+    --tl-secondary-color: #1b7340;
+    --tl-info-color: #90d3ed;
+    --tl-background-color: #f2f2f2;
+    --tl-line-color: var(--tl-primary-color);
+    --tl-date-background-color: var(--tl-primary-color);
+    --tl-text-color: #000000;
+    --tl-button-color: var(--tl-primary-color);
+    --tl-button-hover-color: var(--tl-info-color);
+  }
+  body {
+    background-color: var(--tl-secondary-color);
+  }
+  .timeline-container {
+    background-color: var(--tl-secondary-color);
+    font-family: "Jost", "Futura", sans-serif;
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 20px;
+  }
+  .timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0;
+  }
+  .timeline::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    background-color: var(--tl-line-color);
+    top: 0;
+    bottom: 0;
+    left: 15%;
+    margin-left: -1px;
+  }
+  .timeline-tip {
+    position: absolute;
+    top: -15px;
+    left: 15%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid var(--tl-line-color);
+    transform: translateX(-50%);
+  }
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  .timeline-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    position: relative;
+    margin-bottom: 50px;
+    width: 100%;
+  }
+  .timeline-item .date {
+    font-weight: 600;
+    color: white;
+    background-color: var(--tl-date-background-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 2;
+    position: absolute;
+    left: 15%;
+    transform: translateX(-50%);
+  }
+  .timeline-item:nth-child(odd) {
+    flex-direction: row-reverse;
+  }
+  .timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  .timeline-item .content {
+    padding: 20px;
+    background-color: var(--tl-background-color);
+    border-radius: 5px;
+    width: 50%;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: 30%;
+  }
+  .timeline-item .button,
+  .button {
+    display: inline-block;
+    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 2px 0px;
+    font-weight: 600;
+    margin: 4px 0;
+    padding: 12px 30px;
+    background-color: var(--tl-button-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 9999px;
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: ease;
+    border: none;
+  }
+  .show-more {
+    position: absolute;
+    bottom: 0;
+    right: 50%;
+    transform: translateX(50%);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    z-index: 2;
+  }
+  .timeline-item .button:hover {
+    background-color: var(--tl-button-hover-color);
+  }
+  .date-future .date {
+    background-color: var(--tl-info-color);
+  }
+
+  .timeline-item.new-item {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .timeline-item.fade-in {
+    opacity: 1;
+  }
+  /* all items right for mobile */
+  @media (min-width: 767px) {
+    .timeline-item:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+    .timeline-item:nth-child(even) {
+      flex-direction: row;
+    }
+
+    .timeline::after {
+      left: 50%;
+      margin-left: -1px;
+    }
+
+    .timeline-tip {
+      left: 50%;
+    }
+
+    .timeline-item .date {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .timeline-item .content {
+      width: 40%;
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+</style>
+
+<script>
+  //script for functionality
+  // sort timeline items by date
+  timelineItems.sort((a, b) => {
+    return new Date(b.sortingDate) - new Date(a.sortingDate);
+  });
+
+  // create timeline
+  let timeline = document.querySelector(".timeline");
+
+  // display only a certain number of items
+  displayedItems = timelineItems.slice(0, displayCount);
+
+  displayedItems.forEach((item) => {
+    let timelineItem = document.createElement("div");
+    timelineItem.id = item.sortingDate;
+    timelineItem.classList.add("timeline-item");
+    timelineItem.innerHTML = `
+        <div class="date">${item.date}</div>
+        <div class="content">
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+        </div>
+      `;
+    if (item.url) {
+      let link = document.createElement("a");
+      link.href = item.url;
+      link.classList.add("button");
+      link.innerText = "Weiterlesen";
+      timelineItem.querySelector(".content").appendChild(link);
+    }
+    timeline.appendChild(timelineItem);
+  });
+
+  // add date-future class to future dates
+  let today = new Date();
+  for (let i = 0; i < timelineItems.length; i++) {
+    let itemDate = new Date(timelineItems[i].sortingDate);
+    if (itemDate > today) {
+      document
+        .getElementById(timelineItems[i].sortingDate)
+        .classList.add("date-future");
+    }
+  }
+
+  // if there are more items than displayCount, add a button to show more
+  if (displayedItems.length < timelineItems.length) {
+    let showMoreButton = document.createElement("button");
+    showMoreButton.classList.add("button");
+    showMoreButton.classList.add("show-more");
+    showMoreButton.innerText = "Mehr anzeigen";
+    showMoreButton.addEventListener("click", () => {
+      timelineItems.slice(displayedItems.length).forEach((item) => {
+        let timelineItem = document.createElement("div");
+        timelineItem.id = item.sortingDate;
+        timelineItem.classList.add("timeline-item");
+        timelineItem.classList.add("new-item");
+        timelineItem.innerHTML = `
+          <div class="date">${item.date}</div>
+          <div class="content">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+          </div>
+        `;
+        if (item.url) {
+          let link = document.createElement("a");
+          link.href = item.url;
+          link.classList.add("button");
+          link.innerText = "Weiterlesen";
+          timelineItem.querySelector(".content").appendChild(link);
+        }
+        timeline.appendChild(timelineItem);
+        setTimeout(() => {
+          timelineItem.classList.add("fade-in");
+        }, 50); // Delay the transition for a smoother effect
+      });
+
+      showMoreButton.remove();
+    });
+    timeline.appendChild(showMoreButton);
+  }
+</script>

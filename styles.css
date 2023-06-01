@@ -10,14 +10,11 @@
     --tl-button-color: var(--tl-primary-color);
     --tl-button-hover-color: var(--tl-info-color);
 }
-
 body {
     background-color: var(--tl-secondary-color);
 }
-
-
-
 .timeline-container {
+  background-color: var(--tl-secondary-color);
   font-family: "Jost","Futura",sans-serif;
   box-sizing: border-box;
   position: absolute;
@@ -26,14 +23,12 @@ body {
   width: 100%;
   margin: 20px;
 }
-
 .timeline {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 0;
     
 }
-
 .timeline::after {
   content: "";
   position: absolute;
@@ -44,37 +39,29 @@ body {
   left: 15%;
   margin-left: -1px;
 }
-
-/* add arrow to top of line */
 .timeline-tip {
   position: absolute;
-  top: -15px; /* Adjust the value based on the desired position of the arrow tip */
-  left: 15%; /* Adjust the value to align the arrow tip with the timeline line */
+  top: -15px; 
+  left: 15%; 
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 20px solid var(--tl-line-color); /* Set the color of the arrow tip */
+  border-bottom: 20px solid var(--tl-line-color); 
   transform: translateX(-50%);
 }
-
 .timeline-item:last-child {
   margin-bottom: 0;
 }
-
 .timeline-item {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     margin-bottom: 20px;
+    position: relative;
+    margin-bottom: 50px;
+    width: 100%;	
   }
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 50px;
-  width: 100%;	
-}
-
 .timeline-item .date {
   font-weight: 600;
   color: white;
@@ -92,7 +79,6 @@ body {
 .timeline-item:nth-child(even) {
   flex-direction: row-reverse;
 }
-
 .timeline-item .content {
   padding: 20px;
   background-color: var(--tl-background-color);
@@ -102,7 +88,6 @@ body {
   margin-right: auto;
   margin-left: 30%;
 }
-
 .timeline-item .button, .button {
   display: inline-block;
   box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 2px 0px;
@@ -118,7 +103,6 @@ body {
   transition-timing-function: ease;
   border: none;
 }
-
 .show-more {
   position: absolute;
   bottom: 0;
@@ -128,11 +112,9 @@ body {
   margin-bottom: 20px;
   z-index: 2;
 }
-
 .timeline-item .button:hover {
   background-color: var(--tl-button-hover-color);
 }
-
 .date-future .date {
   background-color: var(--tl-info-color);
 }
@@ -141,11 +123,9 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-
 .timeline-item.fade-in {
   opacity: 1;
 }
-
 /* all items right for mobile */
 @media (min-width: 767px) {
     .timeline-item:nth-child(odd) {
